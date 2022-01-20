@@ -27,8 +27,3 @@ print(len(list(notes_gen)))
 ## Structure of the library
 
 This library has two files. api.py contains the API client which endeavors to mirror the API endpoints with the exception of transparently handling pagination. analysis.py contains pure python functions which perform some analysis or calculations I have found useful.
-
-
-## Prosper API Docs
-
-https://developers.prosper.com/docs/investor/
