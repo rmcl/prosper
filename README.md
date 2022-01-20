@@ -1,6 +1,10 @@
 # Prosper Client
 
-A python API client for the Prosper Lending Platform.
+A unofficial python API client for the Prosper Lending Platform written by some random dude on the internet.
+
+
+* Homepage: https://www.prosper.com/
+* Docs: https://developers.prosper.com/docs/investor/
 
 
 ## Basic Example
