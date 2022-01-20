@@ -6,7 +6,7 @@ A python API client for the Prosper Lending Platform.
 ## Basic Example
 
 ```
-from prosper.api import ProsperAPI
+from prosper import ProsperAPI
 
 client = ProsperAPI.get_client_by_username_password(
     client_id='client id',
