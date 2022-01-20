@@ -14,9 +14,9 @@ setuptools.setup(
     url="https://github.com/rmcl/prosper",
     packages=setuptools.find_packages(),
     install_requires=[
-        'requests',
         'nose',
         'coverage',
+        'requests',
         'types-requests',
     ],
     classifiers=[
