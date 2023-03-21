@@ -58,6 +58,60 @@ class ProsperAPI:
             for note in notes
         ])
 
+    def listings(
+        self,
+        include_only_bidable : bool = True,
+        include_only_invested : Optional[bool] = None
+    ):
+        """Return Prosper loan listings
+
+        Note: Getting the listings that you have already invested in is sort of tricky /
+        possibly impossible in the case of charged-off loans.
+
+        To get listings that you have already invested in, you need to query with
+        include_only_invested=True and include_only_bidable=False. However, this
+        seems to only return listings that are not charged-off or sold because once
+        the debt is sold you "don't own" it anymore. Practically speaking this is not
+        very helpful for evaluating your portfolio.
+
+        """
+        return self._fetch_listings(
+            include_only_biddable=include_only_bidable,
+            include_only_invested=include_only_invested,
+            )
+
+    def _fetch_listings(
+        self,
+        include_only_biddable : bool = True,
+        include_only_invested : Optional[bool] = None,
+        include_credit_bureau_data : bool = False
+    ):
+        """Fetch listings from the prosper API."""
+
+        include_credit_bureau_values = None
+        if include_credit_bureau_data:
+            include_credit_bureau_values = 'experian,transunion'
+
+        limit = 100
+        offset = 0
+        while True:
+            response = self.get('listingsvc/v2/listings', params={
+                'limit': limit,
+                'offset': offset,
+                'include_credit_bureau_values': include_credit_bureau_values,
+                'biddable': include_only_biddable,
+                'invested': include_only_invested
+            })
+
+            results = response.json()
+            for payment in results['result']:
+                yield payment
+
+            offset += results['result_count']
+            if offset >= results['total_count']:
+                break
+
+
     def payments_by_loan_number(self, loan_numbers : List[int]) -> Dict[int, List[Dict]]:
         """Return payments for a list of loan ids
 
