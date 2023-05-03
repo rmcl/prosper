@@ -1,5 +1,6 @@
 from typing import List, Optional, Dict
 import requests
+from datetime import date
 
 
 class ProsperAPI:
@@ -112,7 +113,7 @@ class ProsperAPI:
                 break
 
 
-    def payments_by_loan_number(self, loan_numbers : List[int]) -> Dict[int, List[Dict]]:
+    def payments_by_loan_number(self, loan_numbers : List[int], transaction_effective_date : Optional[date] = None) -> Dict[int, List[Dict]]:
         """Return payments for a list of loan ids
 
         From the prosper API docs:
@@ -131,10 +132,10 @@ class ProsperAPI:
         ]
 
         for loan_number_chunk in loan_number_chunks:
-            for payment in self._fetch_payments_by_loan_number(loan_number_chunk):
+            for payment in self._fetch_payments_by_loan_number(loan_number_chunk, transaction_effective_date):
                 yield payment
 
-    def _fetch_payments_by_loan_number(self, loan_numbers : List[int]) -> Dict[int, List[Dict]]:
+    def _fetch_payments_by_loan_number(self, loan_numbers : List[int], transaction_effective_date : Optional[date] = None) -> Dict[int, List[Dict]]:
         """Fetch payments for the past 90 days.
 
         TODO: Possibly modify this endpoint to allow querying for older payments.
@@ -153,7 +154,8 @@ class ProsperAPI:
             response = self.get('loans/payments/', params={
                 'loan_number': loan_numbers,
                 'limit': limit,
-                'offset': offset
+                'offset': offset,
+                'transaction_effective_date': transaction_effective_date.isoformat() if transaction_effective_date else None
             })
 
             results = response.json()
