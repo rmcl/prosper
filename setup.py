@@ -4,11 +4,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="prosper-client",
+    name="prosper-funding-client",
     version="0.1.0",
     author="Russell McLoughlin",
     author_email="russ.mcl@gmail.com",
-    description="A python client for the Prosper Lending platform.",
+    description="A python client for the Prosper Funding Investor API.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rmcl/prosper",
